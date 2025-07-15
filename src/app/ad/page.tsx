@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ export default function AdPage() {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
   const [isAdFinished, setIsAdFinished] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (isAdFinished) return;
@@ -33,8 +34,17 @@ export default function AdPage() {
       if (elapsedTime >= AD_DURATION) {
         clearInterval(interval);
         setIsAdFinished(true);
+        videoRef.current?.pause();
       }
     }, 100);
+
+    // Start video playback
+    videoRef.current?.play().catch(error => {
+      // Autoplay was prevented.
+      console.warn("Video autoplay was prevented.", error)
+      // The ad timer will continue regardless.
+    });
+
 
     return () => clearInterval(interval);
   }, [isAdFinished]);
@@ -43,6 +53,15 @@ export default function AdPage() {
     <div className="flex items-center justify-center min-h-screen bg-background p-4">
       <Card className="w-full max-w-lg text-center">
         <CardHeader>
+          <div className="flex justify-center mb-4">
+             <Image 
+                src="https://www.nigcomsat.gov.ng/wp-content/uploads/2021/11/nigcomsat-logo.png"
+                alt="Nigcomsat Logo"
+                width={250}
+                height={56}
+                priority
+              />
+          </div>
           <CardTitle className="font-headline">
             A message from our sponsors
           </CardTitle>
@@ -52,15 +71,18 @@ export default function AdPage() {
             Your free WiFi access is made possible by our partners.
           </p>
           <div className="aspect-video w-full rounded-lg overflow-hidden bg-muted">
-            <Image
-              src="https://placehold.co/1600x900.png"
-              alt="Advertisement"
-              width={1600}
-              height={900}
+            <video
+              ref={videoRef}
+              src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+              width="1600"
+              height="900"
               className="object-cover w-full h-full"
-              data-ai-hint="business travel"
-              priority
-            />
+              muted
+              playsInline
+              loop
+            >
+              Your browser does not support the video tag.
+            </video>
           </div>
           <Progress value={progress} className="w-full" />
           <p className="text-sm text-muted-foreground">
