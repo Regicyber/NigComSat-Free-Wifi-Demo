@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.nigcomsat.gov.ng',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'drive.google.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

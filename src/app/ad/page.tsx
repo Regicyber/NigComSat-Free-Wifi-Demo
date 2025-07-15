@@ -55,15 +55,21 @@ export default function AdPage() {
         <CardHeader>
           <div className="flex justify-center mb-4">
              <Image 
-                src="https://www.nigcomsat.gov.ng/wp-content/uploads/2021/11/nigcomsat-logo.png"
+                src="https://drive.google.com/uc?id=1lsJgNies4PyH1H7LxEPJGtol0O3s8DCZ"
                 alt="Nigcomsat Logo"
                 width={250}
                 height={56}
                 priority
               />
           </div>
-          <CardTitle className="font-headline">
-            A message from our sponsors
+          <CardTitle className="font-headline flex items-center justify-center space-x-2">
+            <Image
+              src="https://drive.google.com/uc?id=1lsJgNies4PyH1H7LxEPJGtol0O3s8DCZ"
+              alt="Nigcomsat Logo"
+              width={32}
+              height={32}
+            />
+            <span>Nigcomsat Wifi</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
