@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -40,7 +39,7 @@ export default function AdPage() {
           videoRef.current.pause();
         }
       }
-    }, 100);
+    }, 1000);
 
     // Attempt to play the video (muted autoplay is usually allowed)
     if (videoRef.current) {
@@ -93,7 +92,7 @@ export default function AdPage() {
             <p className="text-xs font-medium text-muted-foreground animate-pulse">
               {isAdFinished
                 ? "Connection ready!"
-                : "Securing your airport connection..."}
+                : "Securing your rail connection..."}
             </p>
           </div>
         </CardContent>

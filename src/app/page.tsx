@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Wifi, Plane, Clock } from "lucide-react";
+import { Wifi, Train, Clock } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -16,14 +16,14 @@ export default function Home() {
       <main className="flex-1 flex items-center justify-center p-6">
         <div className="text-center space-y-6 max-w-2xl">
           <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary font-medium">
-            Enugu Airport Public WiFi
+            Nigeria Rail Public WiFi
           </div>
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl font-headline">
-            Stay Connected, On The Go.
+            Stay Connected, On The Rails.
           </h1>
           <p className="text-lg text-muted-foreground md:text-xl">
-            Enjoy complimentary high-speed internet access during your stay at
-            Enugu Airport, powered by Nigcomsat.
+            Enjoy complimentary high-speed internet access during your journey with
+            Nigeria Rail, powered by Nigcomsat.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6">
             <div className="flex flex-col items-center space-y-2 p-4 rounded-lg bg-card shadow-sm">
@@ -36,9 +36,9 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col items-center space-y-2 p-4 rounded-lg bg-card shadow-sm">
-              <Plane className="h-10 w-10 text-primary" />
+              <Train className="h-10 w-10 text-primary" />
               <h3 className="text-lg font-semibold font-headline">
-                Free for Travelers
+                Free for Commuters
               </h3>
               <p className="text-sm text-muted-foreground">
                 No hidden fees. Get online in just a few clicks.

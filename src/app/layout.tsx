@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Nigcomsat WiFi Connect",
-  description: "Free WiFi at Enugu Airport",
+  description: "Free WiFi on Nigeria Rail",
 };
 
 export default function RootLayout({
