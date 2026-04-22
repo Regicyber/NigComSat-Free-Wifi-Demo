@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight } from "lucide-react";
+import placeholderImages from "@/app/lib/placeholder-images.json";
 
 const AD_DURATION = 5000; // 5 seconds
 
@@ -34,55 +36,51 @@ export default function AdPage() {
       if (elapsedTime >= AD_DURATION) {
         clearInterval(interval);
         setIsAdFinished(true);
-        videoRef.current?.pause();
+        if (videoRef.current) {
+          videoRef.current.pause();
+        }
       }
     }, 100);
 
-    // Start video playback
-    videoRef.current?.play().catch(error => {
-      // Autoplay was prevented.
-      console.warn("Video autoplay was prevented.", error)
-      // The ad timer will continue regardless.
-    });
-
+    // Attempt to play the video (muted autoplay is usually allowed)
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.warn("Video autoplay was prevented.", error);
+      });
+    }
 
     return () => clearInterval(interval);
   }, [isAdFinished]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <Card className="w-full max-w-lg text-center">
-        <CardHeader>
-          <div className="flex justify-center mb-4">
-             <Image 
-                src="https://drive.google.com/uc?id=1lsJgNies4PyH1H7LxEPJGtol0O3s8DCZ"
-                alt="Nigcomsat Logo"
-                width={250}
-                height={56}
-                priority
-              />
-          </div>
-          <CardTitle className="font-headline flex items-center justify-center space-x-2">
+      <Card className="w-full max-w-lg text-center overflow-hidden border-none shadow-xl">
+        <CardHeader className="pt-8 pb-4 bg-card">
+          <div className="flex justify-center mb-6">
             <Image
-              src="https://drive.google.com/uc?id=1lsJgNies4PyH1H7LxEPJGtol0O3s8DCZ"
+              src={placeholderImages.logos.nigcomsat}
               alt="Nigcomsat Logo"
-              width={32}
-              height={32}
+              width={220}
+              height={50}
+              priority
+              className="h-auto w-auto"
+              data-ai-hint="company logo"
             />
-            <span>Nigcomsat Wifi</span>
+          </div>
+          <CardTitle className="font-headline text-2xl tracking-tight">
+            Nigcomsat WiFi Connect
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-muted-foreground">
-            Your free WiFi access is made possible by our partners.
+        <CardContent className="space-y-6 pt-2">
+          <p className="text-muted-foreground text-sm">
+            Your free high-speed WiFi is sponsored by Nigcomsat. 
+            Please enjoy this brief message.
           </p>
-          <div className="aspect-video w-full rounded-lg overflow-hidden bg-muted">
+          <div className="aspect-video w-full rounded-xl overflow-hidden bg-black shadow-inner ring-1 ring-border">
             <video
               ref={videoRef}
-              src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
-              width="1600"
-              height="900"
-              className="object-cover w-full h-full"
+              src={placeholderImages.videos.adPlaceholder}
+              className="object-contain w-full h-full"
               muted
               playsInline
               loop
@@ -90,21 +88,23 @@ export default function AdPage() {
               Your browser does not support the video tag.
             </video>
           </div>
-          <Progress value={progress} className="w-full" />
-          <p className="text-sm text-muted-foreground">
-            {isAdFinished
-              ? "You can now proceed."
-              : "Please wait to continue..."}
-          </p>
+          <div className="space-y-3">
+            <Progress value={progress} className="h-2 w-full" />
+            <p className="text-xs font-medium text-muted-foreground animate-pulse">
+              {isAdFinished
+                ? "Connection ready!"
+                : "Securing your airport connection..."}
+            </p>
+          </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="pb-8 bg-card">
           <Button
-            className="w-full"
-            size="lg"
+            className="w-full h-12 text-lg font-semibold transition-all"
             onClick={() => router.push("/dashboard")}
             disabled={!isAdFinished}
           >
-            Proceed to WiFi <ArrowRight className="ml-2 h-5 w-5" />
+            {isAdFinished ? "Access WiFi Now" : "Waiting for Sponsor..."} 
+            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </CardFooter>
       </Card>
