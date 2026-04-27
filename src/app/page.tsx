@@ -5,14 +5,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-16 flex items-center bg-card shadow-sm">
-        <Link href="/" className="flex items-center justify-center" prefetch={false}>
-          <Wifi className="h-6 w-6 text-primary" />
-          <span className="ml-2 text-lg font-semibold font-headline">
-            Nigcomsat WiFi
-          </span>
-        </Link>
-      </header>
       <main className="flex-1 flex items-center justify-center p-6">
         <div className="text-center space-y-6 max-w-2xl">
           <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary font-medium">
