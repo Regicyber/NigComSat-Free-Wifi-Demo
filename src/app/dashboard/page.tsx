@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -32,13 +33,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const TOTAL_TIME_SECONDS = 60 * 60; // 1 hour
+const TOTAL_TIME_SECONDS = 600; // 10 minutes
 const TOTAL_DATA_MB = 500;
 
 export default function Dashboard() {
   const router = useRouter();
   const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_SECONDS);
-  const [dataUsed, setDataUsed] = useState(128); // Start with some data used
+  const [dataUsed, setDataUsed] = useState(12.5); 
   const [isConnected, setIsConnected] = useState(true);
 
   useEffect(() => {
@@ -47,8 +48,7 @@ export default function Dashboard() {
     const timer = setInterval(() => {
       setTimeRemaining((prevTime) => {
         if (prevTime > 0) {
-          // Simulate data usage over time
-          setDataUsed((d) => Math.min(d + Math.random() * 0.1, TOTAL_DATA_MB));
+          setDataUsed((d) => Math.min(d + Math.random() * 0.05, TOTAL_DATA_MB));
           return prevTime - 1;
         }
         setIsConnected(false);
@@ -60,15 +60,9 @@ export default function Dashboard() {
   }, [isConnected]);
 
   const formatTime = (seconds: number) => {
-    const h = Math.floor(seconds / 3600)
-      .toString()
-      .padStart(2, "0");
-    const m = Math.floor((seconds % 3600) / 60)
-      .toString()
-      .padStart(2, "0");
-    const s = Math.floor(seconds % 60)
-      .toString()
-      .padStart(2, "0");
+    const h = Math.floor(seconds / 3600).toString().padStart(2, "0");
+    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const s = Math.floor(seconds % 60).toString().padStart(2, "0");
     return `${h}:${m}:${s}`;
   };
 
@@ -80,43 +74,7 @@ export default function Dashboard() {
   const timePercentage = (timeRemaining / TOTAL_TIME_SECONDS) * 100;
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <header className="px-4 lg:px-6 h-16 flex items-center justify-between bg-card shadow-sm">
-        <Link
-          href="/dashboard"
-          className="flex items-center justify-center"
-          prefetch={false}
-        >
-          <Wifi className="h-6 w-6 text-primary" />
-          <span className="ml-2 text-lg font-semibold font-headline">
-            Nigcomsat WiFi
-          </span>
-        </Link>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="ghost" size="sm">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Are you sure you want to log out?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                This will end your current WiFi session. You can sign back in at
-                any time.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </header>
-
+    <div className="flex flex-col min-h-[calc(100vh-64px)]">
       <main className="flex-1 p-4 sm:p-6 md:p-8">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-2">
@@ -181,7 +139,7 @@ export default function Dashboard() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button disabled={!isConnected}>
+              <Button disabled={!isConnected} onClick={() => router.push("/extend-session")}>
                 <PlusCircle className="mr-2 h-4 w-4" /> Extend Session
               </Button>
             </CardContent>
@@ -194,7 +152,7 @@ export default function Dashboard() {
                   Session Expired
                 </CardTitle>
                 <CardDescription className="text-destructive/80">
-                  Your free WiFi session has ended. Please log in again to start
+                  Your free WiFi session has ended. Please log in again or extend to start
                   a new session.
                 </CardDescription>
               </CardHeader>
@@ -205,6 +163,32 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           )}
+
+          <div className="flex justify-center pt-4">
+             <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-muted-foreground">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout and End Session
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure you want to log out?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will end your current WiFi session. You can sign back in at
+                    any time.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
       </main>
     </div>
